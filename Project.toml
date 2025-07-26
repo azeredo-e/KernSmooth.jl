@@ -1,0 +1,10 @@
+name = "KernSmooth.jl"
+uuid = "cf970be5-94eb-4c48-9428-70c2a02a7083"
+authors = ["lendle <>", "azeredo-e <eduardo_azeredo@icloud.com>"]
+version = "0.1.0"
+
+[deps]
+SpecialFunctions = "276daf66-3868-5448-9aa4-cd146d93841b"
+
+[compat]
+SpecialFunctions = "2.5.1"

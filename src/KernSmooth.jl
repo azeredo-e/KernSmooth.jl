@@ -1,11 +1,11 @@
 module KernSmooth
 
-    export locpoly, dpill
+    export locpoly
 
-    const libkernsmooth = joinpath(Pkg.dir("KernSmooth"), "deps", "libkernsmooth.so")
+    const libkernsmooth = "" # This is a place holder so that the include doesnt break
 
     include("utils.jl")
     include("locpoly.jl")
-    include("dpill.jl")
+    # include("dpill.jl")
 
-end
+end # module KernSmooth
