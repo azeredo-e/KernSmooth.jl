@@ -1,5 +1,5 @@
-## For application of linear binning to a univariate data set.
-function linbin(X::Vector{Float64}, gpoints::Vector{Float64}, truncate::Bool = true)
+# For application of linear binning to a univariate data set.
+function linbin(X::Vector{Float64}, gpoints::AbstractRange, truncate::Bool = true)
     n = length(X)
     M = length(gpoints)
 
@@ -32,16 +32,11 @@ function linbin(X::Vector{Float64}, gpoints::Vector{Float64}, truncate::Bool = t
         end
     end
 
-    # ccall((:linbin_, libkernsmooth), Ptr{Void},
-    #          (Ptr{Float64}, Ptr{Int}, Ptr{Float64}, Ptr{Float64}, Ptr{Int}, Ptr{Int}, Ptr{Float64}),
-    #          X, &n, &a, &b, &M, &trun, res)
-
     return res
 end
 
 
-## For application of linear binning to a regression
-## data set.
+# For application of linear binning to a regression data set.
 function rlbin(X::Vector{Float64}, Y::Vector{Float64}, gpoints::AbstractRange, truncate::Bool = true)
     n = length(X)
     M = length(gpoints)
@@ -61,6 +56,7 @@ function rlbin(X::Vector{Float64}, Y::Vector{Float64}, gpoints::AbstractRange, t
         li = floor(lxi) |> Int64
         rem = lxi - li
 
+        # Correction for right endpoint (not included if li == M)
         if X[i] == b
             li = M - 1
             rem = 1
@@ -162,13 +158,12 @@ function discretise_the_bandwidths(bandwidth, M, Q, tau, delta)
     if length(bandwidth) == M
         hlow = minimum(bandwidth)
         hupp = maximum(bandwidth)
-        hdisc = [exp(h) for h in lrange(log(hlow), log(hupp), length=Q)]
+        hdisc = [exp(h) for h in range(log(hlow), log(hupp), length=Q)]
 
-        ## Determine value of L for each member of "hdisc"
+        # Determine value of L for each member of "hdisc"
         Lvec = [floor(tau*h/delta) for h in hdisc]
 
-        ## Determine index of closest entry of "hdisc"
-        ## to each member of "bandwidth"
+        # Determine index of closest entry of "hdisc" to each member of "bandwidth"
         indic = if Q > 1
                     gap = (log(hdisc[Q])-log(hdisc[1]))/(Q-1)
                     if gap == 0
