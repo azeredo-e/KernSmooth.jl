@@ -1,11 +1,24 @@
-name = "KernSmooth.jl"
+name = "KernSmooth"
 uuid = "cf970be5-94eb-4c48-9428-70c2a02a7083"
 license = "MIT"
 authors = ["lendle", "azeredo-e"]
 version = "0.1.0"
 
 [deps]
+LinearAlgebra = "37e2e46d-f89d-539d-b4ee-838fcccc9c8e"
 SpecialFunctions = "276daf66-3868-5448-9aa4-cd146d93841b"
 
 [compat]
+CSV = "0.10.15"
+LinearAlgebra = "1.11.0"
+RDatasets = "0.7.7"
 SpecialFunctions = "2.5.1"
+Test = "1.11.0"
+
+[extras]
+CSV = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
+RDatasets = "ce6b1742-4840-55fa-b093-852dadbb1d8b"
+Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"
+
+[targets]
+test = ["RDatasets", "Test", "CSV"]
