@@ -15,6 +15,20 @@ Currently the `locpoly` function is ported.
 Other functionality provided by the R package but not ported to KernSmooth.jl pertains to univariate and bivariate kernel density estimation.
 Univariate and bivariate kernel density estimation is provided by the `kde` function in [StatsBase.jl](https://github.com/JuliaStats/StatsBase.jl/).
 
+## Installation
+
+You can install through the package manager using
+
+```juliarepl
+] add https://github.com/azeredo-e/KernSmooth.jl/tree/master
+```
+
+This install the latest stable release. For other releases you can use tags e.g.
+
+```juliarepl
+] add https://github.com/azeredo-e/KernSmooth.jl/tree/v0.1.0
+```
+
 ## Usage
 
 ### `locpoly` - Estimate regression or density functions or their derivatives using local polynomials
