@@ -31,20 +31,14 @@ The data is then equally split in "`gridsize`" parts and for each a correspondin
 # Args
 - x::Vector{Float64} : X values of the series;
 - y::Vector{Float64} : Y values of the series;
-- bandwidth::Union{Float64, Vector{Float64}} : bandwidth size, can be a scalar for equal smoothing or Vector
-for variable regression weigths;
-- drv::Int=0 : order of the estimated derivative, 0 being the polynomial itself, 1 being the slope of the polynomial,
-and so on;
+- bandwidth::Union{Float64, Vector{Float64}} : bandwidth size, can be a scalar for equal smoothing or Vector for variable regression weigths;
+- drv::Int=0 : order of the estimated derivative, 0 being the polynomial itself, 1 being the slope of the polynomial, and so on;
 - kernel::Symbol=:normal : type of kernel used, defaults to gaussian, currently unused;
 - gridsize::Int=401 : number of equally-spaced grid points over which the function is to be estimated;
-- wdisc::Int=25, : number of logarithmically-equally-spaced bandwidths on which bandwidth is discretised, to speed
-up computation. More relevant when `bandwidth` is not a scalar;
-- range_x::Vector{Float64}=Float64[] : vector containing the minimum and maximum values of x at which to compute
-the estimate;
-- binned::Bool=false : logical flag: if `true`, then x and y are taken to be grid counts rather than raw
-data;
-- truncate::Bool=true : logical flag: if `true`, data with x values outside the range specified by `range_x`
-are ignored.
+- wdisc::Int=25, : number of logarithmically-equally-spaced bandwidths on which bandwidth is discretised, to speed up computation. More relevant when `bandwidth` is not a scalar;
+- range_x::Vector{Float64}=Float64[] : vector containing the minimum and maximum values of x at which to compute the estimate;
+- binned::Bool=false : logical flag: if `true`, then x and y are taken to be grid counts rather than raw data;
+- truncate::Bool=true : logical flag: if `true`, data with x values outside the range specified by `range_x` are ignored.
 
 # Return
 - ::T<:AbstractRange : the range (X values) of points estimated by regression;

@@ -1,9 +1,9 @@
 module KernSmooth
 
-    export locpoly
+    export locpoly, dpill
 
     include("utils.jl")
     include("locpoly.jl")
-    # include("dpill.jl")
+    include("dpill.jl")
 
 end # module KernSmooth
