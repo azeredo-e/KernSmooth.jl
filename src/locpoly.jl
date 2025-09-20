@@ -70,7 +70,7 @@ function locpoly(x::Vector{Float64}, y::Vector{Float64}, bandwidth::Union{Float6
         end
     end
 
-    ## Rename common variables
+    # Rename common variables
     M = gridsize
     Q = bwdisc
     a = range_x[1]
@@ -79,16 +79,15 @@ function locpoly(x::Vector{Float64}, y::Vector{Float64}, bandwidth::Union{Float6
     ppp = 2*degree + 1
     tau = 4
 
-    ## Decide whether a density estimate or regression estimate is required.
-
-    if y == Float64[]    # obtain density estimate
+    # Decide whether a density estimate or regression estimate is required.
+    if y == Float64[] # obtain density estimate
         n = length(x)
         gpoints = range(a, b, length=M)
         xcounts = linbin(x, gpoints, truncate)
         ycounts = (M-1) .* xcounts ./ (n*(b-a))
         xcounts = ones(M) #rep(1, M)
     else # obtain regression estimate
-        ## Bin the data if not already binned
+        # Bin the data if not already binned
         if !binned
             gpoints = range(a, b, length=M)
             xcounts, ycounts = rlbin(x, y, gpoints, truncate)
@@ -100,7 +99,7 @@ function locpoly(x::Vector{Float64}, y::Vector{Float64}, bandwidth::Union{Float6
         end
     end
 
-    ## Set the bin width
+    # Set the bin width
     delta = (b-a)/(M-1)
 
     (indic, Q, Lvec, hdisc) = discretise_the_bandwidths(bandwidth, M, Q, tau, delta)
@@ -109,7 +108,7 @@ function locpoly(x::Vector{Float64}, y::Vector{Float64}, bandwidth::Union{Float6
         error("Binning grid too coarse for current (small) bandwidth: consider increasing 'gridsize'")
     end
 
-    ## Allocate space for the kernel vector and final estimate
+    # Allocate space for the kernel vector and final estimate
     dimfkap = 2 * sum(Lvec) + Q
     fkap = zeros(convert(Int, dimfkap))
     curvest = zeros(M)
@@ -170,16 +169,20 @@ function locpoly(x::Vector{Float64}, y::Vector{Float64}, bandwidth::Union{Float6
         end
 
         # Solve the linear system
-        Tvec = Smat \ Tvec
-        # Smat, ipvt, _ = LinearAlgebra.LAPACK.getrf!(Smat)
-        # LinearAlgebra.LAPACK.getrs!('N', Smat, ipvt, Tvec)
+        eigenvals = eigen(Smat)
+        if 0 in eigenvals.values # If Smat is not invertible defines value as nan
+            curvest[i] = NaN
+            continue
+        else
+            Tvec = Smat \ Tvec
+        end
 
         curvest[i] = Tvec[drv+1]
     end
 
     curvest = gamma(drv+1) .* curvest
 
-    # Fix to make sure the first value is not NaN as I seen it happen before
+    # Fix to make sure the first value is not NaN as I've seen it happen before
     if curvest[1] |> isnan
         curvest[1] = curvest[2]
     end
