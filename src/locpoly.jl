@@ -110,7 +110,6 @@ function locpoly(x::Vector{Float64}, y::Vector{Float64}, bandwidth::Union{Float6
     end
 
     ## Allocate space for the kernel vector and final estimate
-
     dimfkap = 2 * sum(Lvec) + Q
     fkap = zeros(convert(Int, dimfkap))
     curvest = zeros(M)
@@ -141,7 +140,7 @@ function locpoly(x::Vector{Float64}, y::Vector{Float64}, bandwidth::Union{Float6
     end
 
     for i in 1:M
-        if xcounts[i] ≠ 0
+        if xcounts[i] != 0
             for j in 1:Q
                 for k in max(1, i-Lvec[j]):min(M, i+Lvec[j])
                     if indic[convert(Int64, k)] == j
@@ -177,7 +176,6 @@ function locpoly(x::Vector{Float64}, y::Vector{Float64}, bandwidth::Union{Float6
 
         curvest[i] = Tvec[drv+1]
     end
-
 
     curvest = gamma(drv+1) .* curvest
 

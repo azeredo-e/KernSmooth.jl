@@ -403,9 +403,8 @@ function sdiag(x::Vector{Float64}, bandwidth;
 end
 
 
-## For computing the binned diagonal entries of SS^T
-## where S is a smoother matrix for local polynomial
-## kernel regression.
+## For computing the binned diagonal entries of SS^T where S is a smoother matrix for
+# local polynomial kernel regression.
 function sstdiag(x::Vector{Float64}, bandwidth;
         drv::Int=0,
         degree::Int=1,
