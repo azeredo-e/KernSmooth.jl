@@ -181,6 +181,11 @@ function locpoly(x::Vector{Float64}, y::Vector{Float64}, bandwidth::Union{Float6
 
     curvest = gamma(drv+1) .* curvest
 
+    # Fix to make sure the first value is not NaN as I seen it happen before
+    if curvest[1] |> isnan
+        curvest[1] = curvest[2]
+    end
+
     return (gpoints, curvest)
 end
 
