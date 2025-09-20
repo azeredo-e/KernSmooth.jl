@@ -169,8 +169,11 @@ function locpoly(x::Vector{Float64}, y::Vector{Float64}, bandwidth::Union{Float6
             end
             Tvec[j] = tt[i, j]
         end
-        Smat, ipvt, _ = LinearAlgebra.LAPACK.getrf!(Smat)
-        LinearAlgebra.LAPACK.getrs!('N', Smat, ipvt, Tvec)
+
+        # Solve the linear system
+        Tvec = Smat \ Tvec
+        # Smat, ipvt, _ = LinearAlgebra.LAPACK.getrf!(Smat)
+        # LinearAlgebra.LAPACK.getrs!('N', Smat, ipvt, Tvec)
 
         curvest[i] = Tvec[drv+1]
     end
